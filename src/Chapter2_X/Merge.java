@@ -8,7 +8,7 @@ package Chapter2_X;
 public class Merge {  //最小规模的归并   最小规模的数据必须是已排序的   
     static int [] aux; //辅助数组
     /*
-    * a:要排序的数组啊啊啊
+    * a:要排序的数组啊啊啊让人
     * lo,mid,hi组成了a[lo...mid]  和 a[mid+1....hi]这两个待归并的数组
     * */
     public static void merge(int[] a,int lo,int mid,int hi){
