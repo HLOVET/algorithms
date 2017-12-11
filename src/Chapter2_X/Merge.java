@@ -53,8 +53,5 @@ public class Merge {  //最小规模的归并   最小规模的数据必须是�
     	quSort(a,left,_left-1);
     	quSort(a,_right+1,right);
     }
-    public static void main(String[] args) {
-		int[] a = {};
-	}
 }
 
