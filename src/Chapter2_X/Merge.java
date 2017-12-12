@@ -2,31 +2,60 @@ package Chapter2_X;
 
 /**
  * Created by xie on 2017/4/23.
- *归并排序:分而治之的思想，将问题不断分化，解决最小的那个
- *大规模的归并只需分解调用merge方法
+ *归并
+ *
  */
-public class Merge {  //最小规模的归并   最小规模的数据必须是已排序的   
-    static int [] aux; //辅助数组
-    /*
-    * a:要排序的数组
-    * lo,mid,hi组成了a[lo...mid]  和 a[mid+1....hi]这两个待归并的数组
-    * */
-    public static void merge(int[] a,int lo,int mid,int hi){
-    	int i = lo,j = mid+1;
-    	for(int k=lo;k<=hi;k++){
-    		aux[k] = a[k];    //将a[lo...hi]复制到aux[lo...hi]
+public class Merge {  
+	
+	
+	   public static void main(String[] args) {
+		   int[] a = {6,8,1,9,43,12,51,3,10};
+		  //mergeSortCore(a,0,a.length-1);
+		   quSort(a,0,a.length-1);
+		   for(Integer ele:a){
+			   System.out.print(ele+" ");
+		   }
+	   }
+	//1.合并
+    private static void mergeSort(int[] a,int low,int mid,int high){
+    	int i = low,j = mid+1,k=0;
+    	int[] temp = new int[high-low+1];
+    	
+    	while(i<=mid && j<=high){
+    		if(a[i]<a[j]){
+    			temp[k]=a[i];
+    			i++;k++;
+    		}else{
+    			temp[k]=a[j];
+    			j++;k++;
+    		}
     	}
-    	for(int k=lo;k<hi;k++){
-    		if(i<mid) a[k]=aux[j++];		//两半数组有一半先完
-    		else if(j>hi) a[k]=aux[i++];
-    		else if(aux[i]<aux[j]) a[k]=aux[i++];  //归并过程
-    		else a[k]=aux[j++];
+    	while(i<=mid){
+    		temp[k]=a[i];
+			i++;k++;
+    	}
+    	while(j<=high){
+    		temp[k]=a[j];
+    		j++;k++;
+    	}
+    	for(k=0;k<temp.length;k++){
+    		a[low+k]=temp[k];
     	}
     }
+    //2.分治
+    private static void mergeSortCore(int[] a,int low,int high){
+    	if(low==high){
+    		return;
+    	}
+    	int mid = (low+high)/2;
+    	mergeSortCore(a,low,mid);
+    	mergeSortCore(a,mid+1,high);
+    	mergeSort(a,low,mid,high);
+    }
     
-    
-    
-    
+
+
+	
     //快排
     /**
      * 关键在于将数据分为两部分，取其中一位，保证左边的都小于它，右边都大于它
@@ -35,23 +64,27 @@ public class Merge {  //最小规模的归并   最小规模的数据必须是�
      * 最后两个指针指向的值交换(不断循环进行，直到两个指针相遇)
      * 相遇后交换a[lo]和a[j]
      */
-    public static void quSort(int[] a,int left,int right){
-    	int _left = left,_right=right;
+    
+    
+    public static void quSort(int[] a,int _left,int _right){
+    	int left = _left,right=_right;
     	int temp =0;
-    	while(_left<right){
-    		temp = a[left];
-    		while(temp<=a[right] && left<right){
-    			right--;
+    	if(left<=right){	//两指针相遇表示完成一次重排序
+    		temp = a[left];	//保存基点值
+    		while(left != right){	
+    			while(temp<=a[right] && left<right){	//右指针若大于基点值，继续左移
+    				right--;
+    			}
+    			a[left]=a[right];	//右指针小于基点，停下并与将值“拆”下，“补”到左指针处
+    			while(temp>=a[left] && left<right){
+    				left++;
+    			}
+    			a[right]=a[left];	//左边同理向右移
     		}
-    		a[left]=a[right];
-    		while(temp>=a[left] && left<right){
-    			left++;
-    		}
-    		a[right]=a[left];
+    		a[right]=temp;			//基点元素重新放回中间位置
+    		quSort(a,_left,left-1);	//左半部分递归调用
+    		quSort(a,right+1,_right);//右半部分递归调用
     	}
-    	a[right]=temp;
-    	quSort(a,left,_left-1);
-    	quSort(a,_right+1,right);
     }
 }
 
