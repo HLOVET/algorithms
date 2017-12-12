@@ -16,12 +16,12 @@ public class Merge {
 			   System.out.print(ele+" ");
 		   }
 	   }
-	//1.合并
+	//1.合并(两个有序数组合并成一个)
     private static void mergeSort(int[] a,int low,int mid,int high){
     	int i = low,j = mid+1,k=0;
-    	int[] temp = new int[high-low+1];
+    	int[] temp = new int[high-low+1];//排序后接受存储数据的临时数组
     	
-    	while(i<=mid && j<=high){
+    	while(i<=mid && j<=high){	//将更小的入栈
     		if(a[i]<a[j]){
     			temp[k]=a[i];
     			i++;k++;
@@ -30,15 +30,15 @@ public class Merge {
     			j++;k++;
     		}
     	}
-    	while(i<=mid){
+    	while(i<=mid){		//剩下的全部入栈（如果有）
     		temp[k]=a[i];
 			i++;k++;
     	}
-    	while(j<=high){
+    	while(j<=high){		//剩下的全部入栈（如果有）
     		temp[k]=a[j];
     		j++;k++;
     	}
-    	for(k=0;k<temp.length;k++){
+    	for(k=0;k<temp.length;k++){		//输出至原数组
     		a[low+k]=temp[k];
     	}
     }
@@ -47,10 +47,10 @@ public class Merge {
     	if(low==high){
     		return;
     	}
-    	int mid = (low+high)/2;
-    	mergeSortCore(a,low,mid);
-    	mergeSortCore(a,mid+1,high);
-    	mergeSort(a,low,mid,high);
+    	int mid = (low+high)/2;		//分成两个数组
+    	mergeSortCore(a,low,mid);	//左半部分递归调用
+    	mergeSortCore(a,mid+1,high);//右半部分递归调用
+    	mergeSort(a,low,mid,high);	//当前数组(递归回来时已部分有序)的排序
     }
     
 
@@ -69,7 +69,7 @@ public class Merge {
     public static void quSort(int[] a,int _left,int _right){
     	int left = _left,right=_right;
     	int temp =0;
-    	if(left<=right){	//两指针相遇表示完成一次重排序
+    	if(left<right){	//两指针相遇表示完成一次重排序
     		temp = a[left];	//保存基点值
     		while(left != right){	
     			while(temp<=a[right] && left<right){	//右指针若大于基点值，继续左移
