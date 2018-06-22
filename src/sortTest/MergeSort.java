@@ -2,8 +2,7 @@ package sortTest;
 
 /**
  * Created by xie on 2017/4/23.
- *归并
- *
+ *归并 *
  */
 public class MergeSort {  
 	
@@ -67,7 +66,9 @@ public class MergeSort {
     public static void quSort(int[] a,int _left,int _right){
     	int left = _left,right=_right;
     	int temp =0;
-    	if(left<right){	//两指针相遇表示完成一次重排序
+
+
+		if(left<right){	//两指针相遇表示完成一次重排序
     		temp = a[left];	//保存基点值
     		while(left != right){	
     			while(temp<=a[right] && left<right){	//右指针若大于基点值，继续左移
